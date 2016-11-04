@@ -9730,6 +9730,97 @@ CSL.castLabel = function (state, node, term, plural, mode) {
     }
     return ret;
 };
+
+CSL.Node["container-part"] = {
+	build: function (state, target) {
+		var variable = this.strings.name;
+		var containerVariable = state.build.containers.variable
+		var tok = CSL.Util.cloneToken(this);
+		func = function(state, Item, item){
+			console.log('node.container-part', this.strings, state, Item, item);
+			var counter = state.build.containers.containerCounter;
+			if (variable == "locator"){
+				if (item.locator){
+					var locator = item.locator.split("%")[counter]
+					if (typeof locator == "string"){
+						state.output.append(locator, tok)
+					}
+				}
+			}
+			if (state.build.containers.compatabilityState) { /// compatabilitymode.
+				state.output.append(Item[variable], tok)
+			} else { //// data in containers element.
+				state.output.append(Item[containerVariable][counter][variable], tok)
+			}
+		}
+		console.log('node.container-part.state', this, state, target);
+		state.build.containers[containerVariable].push(func) 
+	}
+}
+
+CSL.Node.container = {
+	build: function (state, target) {
+		console.log('node.container.state', state.containers)
+		if (this.tokentype !== CSL.END){
+			CSL.Util.substituteStart.call(this, state, target);
+		}
+		var func = function(state, Item, item){
+			console.log('node.container.func2', this, state, Item, item);
+			var containerVariable = state.build.containers.variable;
+			var counter = state.build.containers.containerCounter;
+			for (i = 0; i < state.build.containers[containerVariable].length; i++){//// Cycle through variables named in container element.
+				state.build.containers[containerVariable][i].call(this, state, Item, item);
+			}
+			if (state.build.containers.compatabilityState == 0){ // if compatabilityState == 1--> then there are no children to evaluate.
+				state.build.containers.containerCounter += 1; // increment container element counter by 1.
+				if (Item[containerVariable].length > state.build.containers.containerCounter){ //// Cycle through container elements by cloning token and recursively calling func().
+					NextTok = CSL.Util.cloneToken(this);
+					func.call(this, state, Item, item);
+				}
+			}
+		}
+		if (this.tokentype === CSL.END){
+			CSL.Util.substituteEnd.call(this, state, target);
+			this.execs.push(func);
+		}
+		target.push(this);
+	}
+}
+
+CSL.Node.containers = {
+	build: function (state, target) {
+		var func, len, pos, attrname, variableName;
+		variableName = this.variables[0]; // variable name of containers element
+		console.log('node.containers.build', this, state);
+		var debug = false;
+		func = function(state, Item, item){
+			console.log('node.containers', this, state, Item, item, variableName);
+			state.build.containers.containerCounter = 0 // start container element counter at 0.
+			if (Item[variableName]){
+				//// variables might be in top level, instead of nested within containers element.
+				state.build.containers.compatabilityState = 0;
+			} else {
+				//// If the variable for the container element does not exist, then we should look for that data in the top level.
+				state.build.containers.compatabilityState = 1; 
+			}
+		}
+		if (this.tokentype === CSL.START){
+	        CSL.Util.substituteStart.call(this, state, target);
+            state.build.substitute_level.push(1);
+			state.build.containers = {}; //// create scope for container info. clear old data.
+			state.build.containers.variable = variableName; // set variable name to state object
+			state.build.containers[variableName] = [] // array to hold functions from container-parts
+			this.execs.push(func)		
+		}
+        target.push(this);
+		if (this.tokentype === CSL.END){
+			state.build.substitute_level.pop();
+			CSL.Util.substituteEnd.call(this, state, target);
+		}
+	}
+};
+
+
 CSL.Node.name = {
     build: function (state, target) {
         var func, pos, len, attrname;
