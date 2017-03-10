@@ -1,0 +1,416 @@
+<?xml version="1.0" encoding="utf-8"?>
+<style xmlns="http://purl.org/net/xbiblio/csl" class="in-text" version="1.0" demote-non-dropping-particle="never">
+  <info>
+    <title>Logic Validation of citeproc SetLogic Module</title>
+    <title-short>Logic Validation</title-short>
+    <id>http://www.zotero.org/styles/logic-validation</id>
+    <author>
+      <name>Thomas O'Reilly</name>
+      <email>iamio@hotmail.com.com</email>
+    </author>
+    <rights license="http://creativecommons.org/licenses/by-sa/3.0/">This work is licensed under a Creative Commons Attribution-ShareAlike 3.0 License</rights>
+  </info>
+  <locale xml:lang="en">
+    <terms>
+      <term name="editortranslator" form="short">
+        <single>ed. &amp; trans.</single>
+        <multiple>eds. &amp; trans.</multiple>
+      </term>
+      <term name="translator" form="short">
+        <single>trans.</single>
+        <multiple>trans.</multiple>
+      </term>
+    </terms>
+  </locale>
+
+
+  <macro name="simple-all">
+	  <choose>
+      <if match="all" arg1="A B C D" arg2="a b c d">
+        <text variable="var1"/>
+        <choose>
+          <if match="all" arg1="C D E F" arg3="3 4 5 6">
+            <text variable="var1.A"/>
+          </if>
+        </choose>
+        <choose>
+          <if match="any" arg1="C D E F" arg3="3 4 5 6">
+            <text variable="var1.B"/>
+          </if>
+        </choose>
+        <choose>
+          <if match="none" arg1="C D E F" arg3="3 4 5 6">
+            <text variable="var1.C"/>
+          </if>
+        </choose>
+        <choose>
+          <if match="nand" arg1="C D E F" arg3="3 4 5 6">
+            <text variable="var1.D"/>
+          </if>
+        </choose>
+      </if>
+      <else-if match="all" arg2="c d e f" arg3="1 2 3 4">
+        <text variable="var2"/>
+        <choose>
+          <if match="all" arg1="C D E F" arg3="3 4 5 6">
+            <text variable="var2.A"/>
+          </if>
+        </choose>
+        <choose>
+          <if match="any" arg1="C D E F" arg3="3 4 5 6">
+            <text variable="var2.B"/>
+          </if>
+        </choose>
+        <choose>
+          <if match="none" arg1="C D E F" arg3="3 4 5 6">
+            <text variable="var2.C"/>
+          </if>
+        </choose>
+        <choose>
+          <if match="nand" arg1="C D E F" arg3="3 4 5 6">
+            <text variable="var2.D"/>
+          </if>
+        </choose>
+      </else-if>
+      <else>
+        <text variable="var3"/>
+        <choose>
+          <if match="all" arg1="C D E F" arg3="3 4 5 6">
+            <text variable="var3.A"/>
+          </if>
+        </choose>
+        <choose>
+          <if match="any" arg1="C D E F" arg3="3 4 5 6">
+            <text variable="var3.B"/>
+          </if>
+        </choose>
+        <choose>
+          <if match="none" arg1="C D E F" arg3="3 4 5 6">
+            <text variable="var3.C"/>
+          </if>
+        </choose>
+        <choose>
+          <if match="nand" arg1="C D E F" arg3="3 4 5 6">
+            <text variable="var3.D"/>
+          </if>
+        </choose>
+      </else>
+	  </choose>
+  </macro>
+
+  <macro name="simple-any">
+	  <choose>
+      <if match="any" arg1="A B C D" arg2="a b c d">
+        <text variable="var4"/>
+        <choose>
+          <if match="all" arg1="C E D F" arg3="3 4 5 6">
+            <text variable="var4.A"/>
+          </if>
+        </choose>
+        <choose>
+          <if match="any" arg1="C E D F" arg3="3 4 5 6">
+            <text variable="var4.B"/>
+          </if>
+        </choose>
+        <choose>
+          <if match="none" arg1="C E D F" arg3="3 4 5 6">
+            <text variable="var4.C"/>
+          </if>
+        </choose>
+        <choose>
+          <if match="nand" arg1="C E D F" arg3="3 4 5 6">
+            <text variable="var4.D"/>
+          </if>
+        </choose>
+      </if>
+      <else-if match="any" arg2="c d e f" arg3="1 2 3 4">
+        <text variable="var5"/>
+        <choose>
+          <if match="all" arg1="C E D F" arg3="3 4 5 6">
+            <text variable="var5.A"/>
+          </if>
+        </choose>
+        <choose>
+          <if match="any" arg1="C E D F" arg3="3 4 5 6">
+            <text variable="var5.B"/>
+          </if>
+        </choose>
+        <choose>
+          <if match="none" arg1="C E D F" arg3="3 4 5 6">
+            <text variable="var5.C"/>
+          </if>
+        </choose>
+        <choose>
+          <if match="nand" arg1="C E D F" arg3="3 4 5 6">
+            <text variable="var5.D"/>
+          </if>
+        </choose>
+      </else-if>
+      <else>
+        <text variable="var6"/>
+        <choose>
+          <if match="all" arg1="C E D F" arg3="3 4 5 6">
+            <text variable="var6.A"/>
+          </if>
+        </choose>
+        <choose>
+          <if match="any" arg1="C E D F" arg3="3 4 5 6">
+            <text variable="var6.B"/>
+          </if>
+        </choose>
+        <choose>
+          <if match="none" arg1="C E D F" arg3="3 4 5 6">
+            <text variable="var6.C"/>
+          </if>
+        </choose>
+        <choose>
+          <if match="nand" arg1="C E D F" arg3="3 4 5 6">
+            <text variable="var6.D"/>
+          </if>
+        </choose>
+      </else>
+	  </choose>
+  </macro>
+
+  <macro name="simple-notany">
+	  <choose>
+      <if match="none" arg1="A B C D" arg2="a b c d">
+        <text variable="var7"/>
+        <choose>
+          <if match="all" arg1="C E D F" arg3="3 4 5 6">
+            <text variable="var7.A"/>
+          </if>
+        </choose>
+        <choose>
+          <if match="any" arg1="C E D F" arg3="3 4 5 6">
+            <text variable="var7.B"/>
+          </if>
+        </choose>
+        <choose>
+          <if match="none" arg1="C E D F" arg3="3 4 5 6">
+            <text variable="var7.C"/>
+          </if>
+        </choose>
+        <choose>
+          <if match="nand" arg1="C E D F" arg3="3 4 5 6">
+            <text variable="var7.D"/>
+          </if>
+        </choose>
+      </if>
+      <else-if match="none" arg2="c d e f" arg3="1 2 3 4">
+        <text variable="var8"/>
+        <choose>
+          <if match="all" arg1="C E D F" arg3="3 4 5 6">
+            <text variable="var8.A"/>
+          </if>
+        </choose>
+        <choose>
+          <if match="any" arg1="C E D F" arg3="3 4 5 6">
+            <text variable="var8.B"/>
+          </if>
+        </choose>
+        <choose>
+          <if match="none" arg1="C E D F" arg3="3 4 5 6">
+            <text variable="var8.C"/>
+          </if>
+        </choose>
+        <choose>
+          <if match="nand" arg1="C E D F" arg3="3 4 5 6">
+            <text variable="var8.D"/>
+          </if>
+        </choose>
+      </else-if>
+      <else>
+        <text variable="var9"/>
+        <choose>
+          <if match="all" arg1="C E D F" arg3="3 4 5 6">
+            <text variable="var9.A"/>
+          </if>
+        </choose>
+        <choose>
+          <if match="any" arg1="C E D F" arg3="3 4 5 6">
+            <text variable="var9.B"/>
+          </if>
+        </choose>
+        <choose>
+          <if match="none" arg1="C E D F" arg3="3 4 5 6">
+            <text variable="var9.C"/>
+          </if>
+        </choose>
+        <choose>
+          <if match="nand" arg1="C E D F" arg3="3 4 5 6">
+            <text variable="var9.D"/>
+          </if>
+        </choose>
+      </else>
+	  </choose>
+  </macro>
+
+  <macro name="simple-nand"><!-- "simple-notall" -->
+	  <choose>
+      <if match="nand" arg1="A B C D" arg2="a b c d">
+        <text variable="var10"/>
+        <choose>
+          <if match="all" arg1="C E D F" arg3="3 4 5 6">
+            <text variable="var10.A"/>
+          </if>
+        </choose>
+        <choose>
+          <if match="any" arg1="C E D F" arg3="3 4 5 6">
+            <text variable="var10.B"/>
+          </if>
+        </choose>
+        <choose>
+          <if match="none" arg1="C E D F" arg3="3 4 5 6">
+            <text variable="var10.C"/>
+          </if>
+        </choose>
+        <choose>
+          <if match="nand" arg1="C E D F" arg3="3 4 5 6">
+            <text variable="var10.D"/>
+          </if>
+        </choose>
+      </if>
+      <else-if match="nand" arg2="c d e f" arg3="1 2 3 4">
+        <text variable="var11"/>
+        <choose>
+          <if match="all" arg1="C E D F" arg3="3 4 5 6">
+            <text variable="var11.A"/>
+          </if>
+        </choose>
+        <choose>
+          <if match="any" arg1="C E D F" arg3="3 4 5 6">
+            <text variable="var11.B"/>
+          </if>
+        </choose>
+        <choose>
+          <if match="none" arg1="C E D F" arg3="3 4 5 6">
+            <text variable="var11.C"/>
+          </if>
+        </choose>
+        <choose>
+          <if match="nand" arg1="C E D F" arg3="3 4 5 6">
+            <text variable="var11.D"/>
+          </if>
+        </choose>
+      </else-if>
+      <else>
+        <text variable="var12"/>
+        <choose>
+          <if match="all" arg1="C E D F" arg3="3 4 5 6">
+            <text variable="var12.A"/>
+          </if>
+        </choose>
+        <choose>
+          <if match="any" arg1="C E D F" arg3="3 4 5 6">
+            <text variable="var12.B"/>
+          </if>
+        </choose>
+        <choose>
+          <if match="none" arg1="C E D F" arg3="3 4 5 6">
+            <text variable="var12.C"/>
+          </if>
+        </choose>
+        <choose>
+          <if match="nand" arg1="C E D F" arg3="3 4 5 6">
+            <text variable="var12.D"/>
+          </if>
+        </choose>
+      </else>
+	  </choose>
+  </macro>
+
+  <macro name="complex-all">
+    <choose>
+      <if>
+        <conditions match="all">
+          <condition arg1="A B C D" arg2="a b c d" arg3="1 2 3 4" match="all"/>
+          <condition arg1="B C D E" arg2="b c d e" arg3="2 3 4 5" match="any"/>
+          <condition arg1="C D E F" arg2="c d e f" arg3="3 4 5 6" match="none"/>
+          <condition arg1="D E F G" arg2="d e f g" arg3="4 5 6 7" match="nand"/>
+        </conditions>
+        <text variable="var13"/>
+      </if>
+      <else>
+        <text variable="var14"/>
+      </else>
+    </choose>
+  </macro>
+
+  <macro name="complex-any">
+    <choose>
+      <if>
+        <conditions match="any">
+          <condition arg1="A B C D" arg2="a b c d" arg3="1 2 3 4" match="all"/>
+          <condition arg1="B C D E" arg2="b c d e" arg3="2 3 4 5" match="any"/>
+          <condition arg1="C D E F" arg2="c d e f" arg3="3 4 5 6" match="none"/>
+          <condition arg1="D E F G" arg2="d e f g" arg3="4 5 6 7" match="nand"/>
+        </conditions>
+        <text variable="var15"/>
+      </if>
+      <else>
+        <text variable="var16"/>
+      </else>
+    </choose>
+  </macro>
+
+  <macro name="complex-notany">
+    <choose>
+      <if>
+        <conditions match="none">
+          <condition arg1="A B C D" arg2="a b c d" arg3="1 2 3 4" match="all"/>
+          <condition arg1="B C D E" arg2="b c d e" arg3="2 3 4 5" match="any"/>
+          <condition arg1="C D E F" arg2="c d e f" arg3="3 4 5 6" match="none"/>
+          <condition arg1="D E F G" arg2="d e f g" arg3="4 5 6 7" match="nand"/>
+        </conditions>
+        <text variable="var17"/>
+      </if>
+      <else>
+        <text variable="var18"/>
+      </else>
+    </choose>
+  </macro>
+
+  <macro name="complex-nand"><!-- "complex-notall" -->
+    <choose>
+      <if>
+        <conditions match="nand">
+          <condition arg1="A B C D" arg2="a b c d" arg3="1 2 3 4" match="all"/>
+          <condition arg1="B C D E" arg2="b c d e" arg3="2 3 4 5" match="any"/>
+          <condition arg1="C D E F" arg2="c d e f" arg3="3 4 5 6" match="none"/>
+          <condition arg1="D E F G" arg2="d e f g" arg3="4 5 6 7" match="nand"/>
+        </conditions>
+        <text variable="var19"/>
+      </if>
+      <else>
+        <text variable="var20"/>
+      </else>
+    </choose>
+  </macro>
+
+  <citation>
+    <sort>
+      <key macro="author"/>
+      <key macro="issued-sort"/>
+    </sort>
+	  <layout>
+    </layout>
+  </citation>
+  <bibliography>
+    <sort>
+      <key macro="author"/>
+      <key macro="issued-sort" sort="ascending"/>
+      <key macro="title"/>
+    </sort>
+    <layout>
+      <text macro="simple-all"/>
+      <text macro="simple-any"/>
+      <text macro="simple-notany"/>
+      <text macro="simple-nand"/><!-- "simple-notall" -->
+      <text macro="complex-all"/>
+      <text macro="complex-any"/>
+      <text macro="complex-notany"/>
+      <text macro="complex-nand"/><!-- "complex-notall" -->
+    </layout>
+  </bibliography>
+</style>
