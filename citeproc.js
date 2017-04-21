@@ -2720,6 +2720,20 @@ CSL.Engine.getField = function (mode, hash, term, form, plural, gender) {
     }
     return ret;
 };
+CSL.Engine.prototype.DateListParse = function(dateArray){
+	var ret = dateArray.map(function(dateObj){
+		var subret = []
+		['year','month','day'].map(function(key, counter){
+			if (dateObj.hasOwnProperty(key)){
+				subret.push(dateObj.key)
+			} else {
+				subret.push(0)
+			}
+		})
+		return subret
+	})
+	return {"date-parts":ret}
+}
 CSL.Engine.prototype.configureTokenLists = function () {
     var dateparts_master, area, pos, token, dateparts, part, ppos, pppos, len, llen, lllen;
     len = CSL.AREAS.length;
@@ -6528,6 +6542,15 @@ CSL.Node.date = {
                         && !(state.tmp.just_looking
                              && this.variables[0] === "accessed")) {
                         date_obj = Item[this.variables[0]];
+						if (date_obj){
+							if (date_obj.raw) {
+								date_obj = state.fun.dateparser.parseDateToObject(date_obj.raw);
+							}
+							if (date_obj.length && date_obj[0].hasOwnProperty && (typeof(date_obj[0])=="object")) {
+								date_obj = state.DateListParse(date_obj)
+							}
+							date_obj = state.dateParseArray(date_obj);
+						}
                         if ("undefined" === typeof date_obj) {
                             date_obj = {"date-parts": [[0]] };
                             if (state.opt.development_extensions.locator_date_and_revision) {
