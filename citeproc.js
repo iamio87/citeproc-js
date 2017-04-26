@@ -12557,7 +12557,6 @@ CSL.Token = function (name, tokentype) {
     this.next = false;
 };
 CSL.Util.cloneToken = function (token) {
-	console.log(token)
     var newtok, key, pos, len;
     if ("string" === typeof token) {
         return token;
