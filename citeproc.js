@@ -442,7 +442,6 @@ var CSL = {
         "issued", 
         "event-date", 
         "accessed", 
-        "container", 
         "original-date",
         "publication-date",
         "original-date",
@@ -2575,25 +2574,27 @@ CSL.makeBuilder = function (me, target) {
         CSL.XmlToToken.call(node, me, CSL.SINGLETON, target);
     };
     function buildStyle (node) {
-        var starttag, origparent;
-        if (me.cslXml.numberofnodes(me.cslXml.children(node))) {
-            origparent = node;
-            enterFunc(origparent);
-            for (var i=0;i<me.cslXml.numberofnodes(me.cslXml.children(origparent));i+=1) {
-                node = me.cslXml.children(origparent)[i];
-                if (me.cslXml.nodename(node) === null) {
-                    continue;
-                }
-                if (me.cslXml.nodename(node) === "date") {
-                    CSL.Util.fixDateNode.call(me, origparent, i, node)
-                    node = me.cslXml.children(origparent)[i];
-                }
-                buildStyle(node, enterFunc, leaveFunc, singletonFunc);
-            }
-            leaveFunc(origparent);
-        } else {
-            singletonFunc(node);
-        }
+		if (typeof(node) != "string"){ //// We ignore text nodes //// Tom 6/2/2017
+		    var starttag, origparent;
+		    if (me.cslXml.numberofnodes(me.cslXml.children(node))) {
+		        origparent = node;
+		        enterFunc(origparent);
+		        for (var i=0;i<me.cslXml.numberofnodes(me.cslXml.children(origparent));i+=1) {
+		            node = me.cslXml.children(origparent)[i];
+		            if (me.cslXml.nodename(node) === null) {
+		                continue;
+		            }
+		            if (me.cslXml.nodename(node) === "date") {
+		                CSL.Util.fixDateNode.call(me, origparent, i, node)
+		                node = me.cslXml.children(origparent)[i];
+		            }
+		            buildStyle(node, enterFunc, leaveFunc, singletonFunc);
+		        }
+		        leaveFunc(origparent);
+		    } else {
+		        singletonFunc(node);
+		    }
+		}
     }
     return buildStyle;
 };
@@ -9529,6 +9530,7 @@ CSL.NameOutput.prototype.getStaticOrder = function (name, refresh) {
     }
     return static_ordering_val;
 }
+
 CSL.NameOutput.prototype._splitInstitution = function (value, v, i) {
     var ret = {};
     var splitInstitution = value.literal.replace(/\s*\|\s*/g, "|");
@@ -9759,6 +9761,11 @@ CSL.Node.hint = {
 
 	}
 }
+CSL.Node.description = {
+	build: function(state, target){
+
+	}
+}
 CSL.Node.container = {
 	build: function(state, target){
 	}
@@ -9789,10 +9796,6 @@ CSL.Node["container-part"] = {
 					}
 				}
 				state.output.append(Item[variable], tok)
-			}
-			if (this.tokentype === CSL.END){
-				state.build.substitute_level.pop();
-				CSL.Util.substituteEnd.call(this, state, target);
 			}
 			state.build.containers[containerID].push(func)
 		}
