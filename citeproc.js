@@ -10698,21 +10698,23 @@ CSL.Attributes["@type"] = function (state, arg) {
     }
     this.tests.push(state.fun.match.any(this, state, tests));
 };
-CSL.Attributes["@subtype"] = function (state, arg) {
-    var subtypes = arg.split(/\s+/);
+CSL.Attributes["@styletype"] = function (state, arg) {
+    var styletypes = arg.split(/\s+/);
     var maketest = function (mytype) {
         return function(Item,item) {
-            var ret = (Item.subtype === mytype);
-            if (ret) {
-                return true;
-            } else {
-                return false;
-            }
+			if (Item.hasOwnProperty("styletype")){
+		        var ret = (Item.styletype === mytype);
+		        if (ret) {
+		            return true;
+		        } else {
+		            return false;
+		        }
+			}
         }
     }
     var tests = [];
-    for (var i=0,ilen=subtypes.length;i<ilen;i+=1) {
-        tests.push(maketest(subtypes[i]));
+    for (var i=0,ilen=styletypes.length;i<ilen;i+=1) {
+        tests.push(maketest(styletypes[i]));
     }
     this.tests.push(state.fun.match.any(this, state, tests));
 };
